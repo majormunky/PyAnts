@@ -52,14 +52,24 @@ class Ant:
                         self.velocity.y = -vy
                         self.change_state("found", "Found Job")
                 if self.current_range > self.range:
+                    self.current_range = self.size + 1
                     self.change_state(
                         "searching",
                         "unable to find jobs at this position, moving to a new one",
                     )
-                    rx = random.randint(self.position.x - 50, self.position.x + 50)
-                    ry = random.randint(self.position.y - 50, self.position.y + 50)
-                    print(rx, ry)
+                    px = int(self.position.x)
+                    py = int(self.position.y)
+                    rx = random.randint(px - 250, px + 250)
+                    ry = random.randint(py - 250, py + 250)
+
                     self.target = (rx, ry)
+
+                    angle = utils.get_angle(self.position, self.target)
+                    rads = math.radians(angle)
+                    vx = self.speeds["found"] * math.cos(rads)
+                    vy = self.speeds["found"] * math.sin(rads)
+                    self.velocity.x = vx
+                    self.velocity.y = -vy
         elif self.state == "found":
             self.update_position(dt)
             d = self.get_distance_to("job")
@@ -103,6 +113,11 @@ class Ant:
                 self.current_range,
                 1,
             )
+        elif self.state == "searching":
+            if self.target:
+                pygame.draw.circle(
+                    canvas, (255, 255, 255), self.target, self.size + 4, 1
+                )
         # elif self.state == "found":
         #     pygame.draw.line(canvas, (255, 255, 255), self.position, self.current_job)
 
