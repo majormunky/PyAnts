@@ -10,10 +10,8 @@ class Ant:
         self.size = 5
         self.position = pygame.Vector2(x, y)
         self.velocity = pygame.Vector2(random.random(), random.random())
-        self.direction = random.randint(0, 360)
         self.color = (200, 0, 0)
         self.speed = 0.15
-        self.reverse = 1
 
     def update(self, dt):
         pass
@@ -35,11 +33,6 @@ class Ant:
         pygame.draw.circle(
             canvas, self.color, (int(self.position.x), int(self.position.y)), self.size
         )
-
-    def calculate_new_xy(self, old, speed, angle_in_radians):
-        new_x = old[0] + (speed * math.cos(angle_in_radians))
-        new_y = old[1] + (speed * math.sin(angle_in_radians))
-        return new_x, new_y
 
     def handle_event(self, event):
         pass
