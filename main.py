@@ -28,14 +28,17 @@ class Game:
 
 class Ant:
     def __init__(self, x, y):
-        self.rect = pygame.Rect(x, y, 20, 20)
+        self.size = 10
+        self.rect = pygame.Rect(x, y, self.size, self.size)
         self.color = (200, 0, 0)
 
     def update(self, dt):
         pass
 
     def draw(self, canvas):
-        pygame.draw.rect(canvas, self.color, self.rect)
+        pygame.draw.circle(
+            canvas, self.color, (self.rect.x, self.rect.y), self.rect.width
+        )
 
     def handle_event(self, event):
         pass
