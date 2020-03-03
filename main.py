@@ -1,9 +1,9 @@
 import pygame
 import random
-import math
 from Engine.Engine import Engine
 from Engine.Config import get_screenrect
 from Ant import Ant
+import utils
 
 
 class Game:
@@ -26,7 +26,7 @@ class Game:
     def get_jobs_in_range(self, pos, job_range):
         result = []
         for job in self.jobs:
-            d = self.get_distance(pos, job)
+            d = utils.get_distance(pos, job)
             if d < job_range:
                 result.append(job)
         return result
@@ -37,9 +37,6 @@ class Game:
             self.working_jobs.append(job)
             return True
         return False
-
-    def get_distance(self, pos1, pos2):
-        return math.sqrt(((pos2[0] - pos1[0]) ** 2) + ((pos2[1] - pos1[1]) ** 2))
 
     def create_jobs(self, amount):
         padding = 40
