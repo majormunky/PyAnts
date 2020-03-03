@@ -8,7 +8,7 @@ import utils
 
 class Game:
     def __init__(self):
-        self.ant_count = 0
+        self.ant_count = 20
         self.screenrect = get_screenrect()
         self.ants = []
         self.create_ants(self.ant_count)
@@ -18,8 +18,8 @@ class Game:
         self.jobs = []
         self.working_jobs = []
         self.drop_off = pygame.Rect(20, 20, 20, 20)
-        # self.create_jobs(10)
-        self.create_single_job()
+        self.create_jobs(10)
+        # self.create_single_job()
 
     def create_ants(self, amount):
         if amount == 0:

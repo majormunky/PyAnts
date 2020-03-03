@@ -91,11 +91,14 @@ class Ant:
         elif self.state == "searching":
             self.update_position(dt)
             d = self.get_distance_to("target")
-            if d < 5:
+            if d < 20:
                 self.target = None
                 self.change_state(
                     "scanning", "After searching, we found a new spot to scan"
                 )
+            # if not self.screenrect.collidepoint(self.position):
+            #     print("Going offscreen, generating new target")
+            #     self.target = self.get_new_target()
 
     def change_state(self, new_state, why):
         self.state = new_state
