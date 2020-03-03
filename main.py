@@ -8,20 +8,34 @@ import utils
 
 class Game:
     def __init__(self):
+        self.ant_count = 20
         self.screenrect = get_screenrect()
         self.ants = []
-        for _ in range(10):
-            rx = random.randint(0, self.screenrect.width)
-            ry = random.randint(0, self.screenrect.height)
-            new_ant = Ant(rx, ry, self)
-            self.ants.append(new_ant)
+        self.create_ants(self.ant_count)
         # right now a job is just a position
         # we want the ant to pick up the thing
         # and move it to a spot to drop it off
         self.jobs = []
         self.working_jobs = []
         self.drop_off = pygame.Rect(20, 20, 20, 20)
-        self.create_jobs(5)
+        self.create_jobs(10)
+        # self.create_single_job()
+
+    def create_ants(self, amount):
+        if amount == 0:
+            return
+        for _ in range(self.ant_count):
+            rx = random.randint(0, self.screenrect.width)
+            ry = random.randint(0, self.screenrect.height)
+            new_ant = Ant(rx, ry, self)
+            self.ants.append(new_ant)
+
+    def create_single_job(self):
+        self.create_jobs(1)
+        x = self.jobs[0][0] + 80
+        y = self.jobs[0][1] + 80
+        ant = Ant(x, y, self)
+        self.ants.append(ant)
 
     def get_jobs_in_range(self, pos, job_range):
         result = []

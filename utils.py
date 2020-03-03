@@ -6,8 +6,8 @@ def get_distance(pos1, pos2):
 
 
 def get_angle(origin, target):
-    dx = target.x - origin.x
-    dy = target.y - origin.y
+    dx = target[0] - origin[0]
+    dy = target[1] - origin[1]
     rads = math.atan2(-dy, dx)
     rads %= 2 * math.pi
     degs = math.degrees(rads)
