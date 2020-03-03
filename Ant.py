@@ -1,4 +1,3 @@
-import math
 import pygame
 import random
 from Engine.Config import get_screenrect
