@@ -13,6 +13,7 @@ class Ant:
         self.state = "searching"
         self.colors = {
             "searching": (200, 0, 0),
+            "scanning": (0, 0, 200),
             "found": (0, 200, 0),
         }
 
