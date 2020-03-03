@@ -57,6 +57,8 @@ class Ant:
                 self.current_range,
                 1,
             )
+        elif self.state == "found":
+            pygame.draw.line(canvas, (255, 255, 255), self.position, self.current_job)
 
     def handle_event(self, event):
         pass
