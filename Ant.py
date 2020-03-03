@@ -7,14 +7,19 @@ class Ant:
     def __init__(self, x, y):
         self.screenrect = get_screenrect()
         self.size = 5
+        self.range = 20
         self.position = pygame.Vector2(x, y)
         self.velocity = pygame.Vector2(random.random(), random.random())
-        self.speed = 0.15
-        self.state = "searching"
+        self.state = "scanning"
         self.colors = {
             "searching": (200, 0, 0),
             "scanning": (0, 0, 200),
             "found": (0, 200, 0),
+        }
+        self.speeds = {
+            "searching": 0.15,
+            "scanning": 0,
+            "found": 0.35,
         }
 
     def update(self, dt):
