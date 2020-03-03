@@ -10,8 +10,12 @@ class Ant:
         self.size = 5
         self.position = pygame.Vector2(x, y)
         self.velocity = pygame.Vector2(random.random(), random.random())
-        self.color = (200, 0, 0)
         self.speed = 0.15
+        self.state = "searching"
+        self.colors = {
+            "searching": (200, 0, 0),
+            "found": (0, 200, 0),
+        }
 
     def update(self, dt):
         pass
@@ -31,7 +35,10 @@ class Ant:
 
     def draw(self, canvas):
         pygame.draw.circle(
-            canvas, self.color, (int(self.position.x), int(self.position.y)), self.size
+            canvas,
+            self.colors[self.state],
+            (int(self.position.x), int(self.position.y)),
+            self.size,
         )
 
     def handle_event(self, event):
