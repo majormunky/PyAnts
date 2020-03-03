@@ -19,6 +19,7 @@ class Game:
         # we want the ant to pick up the thing
         # and move it to a spot to drop it off
         self.jobs = []
+        self.working_jobs = []
         self.drop_off = pygame.Rect(20, 20, 20, 20)
         self.create_jobs(5)
 
@@ -30,9 +31,10 @@ class Game:
                 result.append(job)
         return result
 
-    def retreive_job(self, job):
+    def request_job(self, job):
         if job in self.jobs:
             self.jobs.remove(job)
+            self.working_jobs.append(job)
             return True
         return False
 
@@ -57,6 +59,9 @@ class Game:
 
         for job in self.jobs:
             pygame.draw.rect(canvas, (0, 200, 200), (job[0], job[1], 5, 5))
+
+        for job in self.working_jobs:
+            pygame.draw.rect(canvas, (255, 255, 255), (job[0], job[1], 5, 5))
 
         pygame.draw.rect(canvas, (255, 255, 255), self.drop_off)
 
