@@ -1,14 +1,14 @@
 import pygame
 import random
 from Engine.Engine import Engine
-from Engine.Config import get_screenrect
+from Engine.Config import get_screenrect, set_screensize
 from Ant import Ant
 import utils
 
 
 class Game:
     def __init__(self):
-        self.ant_count = 20
+        self.ant_count = 3
         self.screenrect = get_screenrect()
         self.ants = []
         self.create_ants(self.ant_count)
@@ -18,7 +18,7 @@ class Game:
         self.jobs = []
         self.working_jobs = []
         self.drop_off = pygame.Rect(20, 20, 20, 20)
-        self.create_jobs(10)
+        self.create_jobs(3)
         # self.create_single_job()
 
     def create_ants(self, amount):
@@ -81,5 +81,6 @@ class Game:
 
 
 if __name__ == "__main__":
+    set_screensize(1280, 720)
     e = Engine(Game)
     e.game_loop()
