@@ -102,10 +102,8 @@ class Game:
 
         for job in self.jobs:
             job.draw(canvas)
-            # pygame.draw.rect(canvas, (0, 200, 200), (job.x, job.y, 5, 5))
 
         for job in self.working_jobs:
-            # pygame.draw.rect(canvas, (255, 255, 255), (job.x, job.y, 5, 5))
             job.draw(canvas)
 
         pygame.draw.rect(canvas, (255, 255, 255), self.drop_off)
