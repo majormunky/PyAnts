@@ -50,6 +50,11 @@ class Sidebar:
             found_text,
             ((self.rect.width / 2) - (found_text.get_rect().width / 2), 110),
         )
+        exit_found = [ant for ant in self.game.ants if ant.state == "moving_to_exit"]
+        exit_text = text_surface("Exiting: {}".format(len(exit_found)), font_size=36)
+        self.image.blit(
+            exit_text, ((self.rect.width / 2) - (exit_text.get_rect().width / 2), 140),
+        )
 
     def draw(self, canvas):
         canvas.blit(self.image, (self.rect.x, self.rect.y))
