@@ -9,12 +9,12 @@ class Ant:
     def __init__(self, x, y, game):
         self.game = game
         self.screenrect = get_screenrect()
-        self.size = 5
-        self.range = 50
+        self.size = random.randint(3, 6)
+        self.range = random.randint(35, 60)
         self.current_range = self.size + 1
         self.current_job = None
         self.target = None
-        self.scan_speed = 125
+        self.scan_speed = random.randint(100, 200)
         self.scan_timer = 0
         self.position = pygame.Vector2(x, y)
         self.velocity = pygame.Vector2(random.random(), random.random())
