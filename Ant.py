@@ -36,8 +36,8 @@ class Ant:
         print("Getting New Target")
         while True:
             print("Trying..")
-            rx = random.randint(20, self.screenrect.width - 20)
-            ry = random.randint(20, self.screenrect.height - 20)
+            rx = random.randint(20, self.game.game_area.width - 20)
+            ry = random.randint(20, self.game.game_area.height - 20)
             d = utils.get_distance(self.position, (rx, ry))
             if d > 30:
                 print("Found it")
@@ -70,10 +70,6 @@ class Ant:
                         "searching",
                         "unable to find jobs at this position, moving to a new one",
                     )
-                    # px = int(self.position.x)
-                    # py = int(self.position.y)
-                    # rx = random.randint(px - 250, px + 250)
-                    # ry = random.randint(py - 250, py + 250)
 
                     self.target = self.get_new_target()
 
@@ -134,8 +130,6 @@ class Ant:
                 pygame.draw.circle(
                     canvas, (255, 255, 255), self.target, self.size + 4, 1
                 )
-        # elif self.state == "found":
-        #     pygame.draw.line(canvas, (255, 255, 255), self.position, self.current_job)
 
     def handle_event(self, event):
         pass

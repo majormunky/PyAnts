@@ -8,8 +8,19 @@ import utils
 
 class Game:
     def __init__(self):
-        self.ant_count = 3
+        self.ant_count = 20
         self.screenrect = get_screenrect()
+        self.sidebar_width = 200
+        self.sidebar = pygame.Rect(
+            self.screenrect.width - self.sidebar_width,
+            0,
+            self.sidebar_width,
+            self.screenrect.height,
+        )
+        self.game_area = pygame.Rect(
+            0, 0, self.screenrect.width - self.sidebar_width, self.screenrect.height
+        )
+
         self.ants = []
         self.create_ants(self.ant_count)
         # right now a job is just a position
@@ -18,15 +29,15 @@ class Game:
         self.jobs = []
         self.working_jobs = []
         self.drop_off = pygame.Rect(20, 20, 20, 20)
-        self.create_jobs(3)
+        self.create_jobs(self.ant_count)
         # self.create_single_job()
 
     def create_ants(self, amount):
         if amount == 0:
             return
         for _ in range(self.ant_count):
-            rx = random.randint(0, self.screenrect.width)
-            ry = random.randint(0, self.screenrect.height)
+            rx = random.randint(0, self.game_area.width)
+            ry = random.randint(0, self.game_area.height)
             new_ant = Ant(rx, ry, self)
             self.ants.append(new_ant)
 
@@ -55,8 +66,8 @@ class Game:
     def create_jobs(self, amount):
         padding = 40
         while len(self.jobs) < amount:
-            rx = random.randint(padding, self.screenrect.width - padding)
-            ry = random.randint(padding, self.screenrect.height - padding)
+            rx = random.randint(padding, self.game_area.width - padding)
+            ry = random.randint(padding, self.game_area.height - padding)
             if (rx, ry) not in self.jobs:
                 self.jobs.append((rx, ry))
 
@@ -65,6 +76,8 @@ class Game:
             ant.update(dt)
 
     def draw(self, canvas):
+        pygame.draw.rect(canvas, (20, 0, 0), self.sidebar)
+        pygame.draw.rect(canvas, (40, 0, 0), self.game_area)
         for ant in self.ants:
             ant.draw(canvas)
 
