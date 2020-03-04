@@ -15,7 +15,7 @@ class Game:
         self.game_area = pygame.Rect(
             0, 0, self.screenrect.width - self.sidebar_width, self.screenrect.height
         )
-        self.ant_count = 20
+        self.ant_count = 4
         self.ants = []
         self.create_ants(self.ant_count)
         self.sidebar = Sidebar(
@@ -33,6 +33,7 @@ class Game:
         # and move it to a spot to drop it off
         self.jobs = []
         self.working_jobs = []
+        self.done_jobs = []
         self.drop_off = pygame.Rect(20, 20, 20, 20)
         self.create_jobs(self.ant_count)
         # self.create_single_job()
@@ -67,6 +68,15 @@ class Game:
             self.working_jobs.append(job)
             return True
         return False
+
+    def job_completed(self, job):
+        if job in self.working_jobs:
+            self.working_jobs.remove(job)
+        else:
+            print("Job not found in working jobs!")
+            print(job)
+            print(self.working_jobs)
+        self.done_jobs.append(job)
 
     def create_jobs(self, amount):
         padding = 40

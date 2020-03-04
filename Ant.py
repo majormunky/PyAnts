@@ -16,21 +16,25 @@ class Ant:
         self.target = None
         self.scan_speed = random.randint(100, 200)
         self.scan_timer = 0
+        self.found_waiting_timer = 0
+        self.found_waiting_time = 500
         self.position = pygame.Vector2(x, y)
         self.velocity = pygame.Vector2(random.random(), random.random())
         self.state = None
         self.change_state("scanning", "Ant Init")
         self.colors = {
-            "searching": (200, 0, 0),
-            "scanning": (0, 0, 200),
-            "found": (0, 200, 0),
-            "moving_to_exit": (200, 0, 200),
+            "searching": (50, 50, 50),
+            "scanning": (100, 100, 100),
+            "found": (150, 150, 150),
+            "found_waiting": (175, 175, 150),
+            "moving_to_exit": (200, 200, 200),
         }
         self.speeds = {
             "searching": 0.05,
             "found": 0.05,
             "moving_to_exit": 0.1,
         }
+        self.speed = 0.05
 
     def get_new_target(self):
         print("Getting New Target")
@@ -41,9 +45,12 @@ class Ant:
             d = utils.get_distance(self.position, (rx, ry))
             if d > 30:
                 print("Found it")
-                return utils.Point(rx, ry)
+                return pygame.Vector2(rx, ry)
             else:
                 print("Trying Again")
+
+    def get_exit_target(self):
+        return pygame.Vector2(self.game.drop_off.x, self.game.drop_off.y)
 
     def update(self, dt):
         if self.state == "scanning":
@@ -57,12 +64,10 @@ class Ant:
                         # we need to setup our velocity before we switch to
                         # the found state
                         self.current_job = jobs[0]
-                        angle = utils.get_angle(self.position, self.current_job)
-                        rads = math.radians(angle)
-                        vx = self.speeds["found"] * math.cos(rads)
-                        vy = self.speeds["found"] * math.sin(rads)
-                        self.velocity.x = vx
-                        self.velocity.y = -vy
+                        new_target = pygame.Vector2(
+                            self.current_job.x, self.current_job.y
+                        )
+                        self.set_target(new_target)
                         self.change_state("found", "Found Job")
                 if self.current_range > self.range:
                     self.current_range = self.size + 1
@@ -70,31 +75,50 @@ class Ant:
                         "searching",
                         "unable to find jobs at this position, moving to a new one",
                     )
-
-                    self.target = self.get_new_target()
-
-                    angle = utils.get_angle(self.position, self.target)
-                    rads = math.radians(angle)
-                    vx = self.speeds["found"] * math.cos(rads)
-                    vy = self.speeds["found"] * math.sin(rads)
-                    self.velocity.x = vx
-                    self.velocity.y = -vy
+                    new_target = self.get_new_target()
+                    self.set_target(new_target)
         elif self.state == "found":
             self.update_position(dt)
             d = self.get_distance_to("job")
             if d < 5:
-                self.change_state("moving_to_exit", "Found our job, moving to exit")
+                self.change_state(
+                    "found_waiting",
+                    "We found our job, but, going to wait a second before going to exit",
+                )
         elif self.state == "searching":
             self.update_position(dt)
             d = self.get_distance_to("target")
-            if d < 20:
+            # print(d)
+            if d < 10:
                 self.target = None
                 self.change_state(
                     "scanning", "After searching, we found a new spot to scan"
                 )
-            # if not self.screenrect.collidepoint(self.position):
-            #     print("Going offscreen, generating new target")
-            #     self.target = self.get_new_target()
+        elif self.state == "moving_to_exit":
+            self.update_position(dt)
+            d = self.get_distance_to("target")
+            if d < 20:
+                self.target = None
+                self.game.job_completed(self.current_job)
+                self.change_state("scanning", "Ant put job away, looking for new one")
+        elif self.state == "found_waiting":
+            self.found_waiting_time += dt
+            if self.found_waiting_time > self.found_waiting_timer:
+                self.found_waiting_time = 0
+                new_target = self.get_exit_target()
+                self.set_target(new_target)
+                self.change_state("moving_to_exit", "Found our job, moving to exit")
+            else:
+                print("Waiting....")
+
+    def set_target(self, target):
+        self.target = target
+        angle = utils.get_angle(self.position, target)
+        rads = math.radians(angle)
+        vx = self.speed * math.cos(rads)
+        vy = self.speed * math.sin(rads)
+        self.velocity.x = vx
+        self.velocity.y = -vy
 
     def change_state(self, new_state, why):
         self.state = new_state
@@ -130,7 +154,7 @@ class Ant:
                 pygame.draw.circle(
                     canvas,
                     (255, 255, 255),
-                    (self.target.x, self.target.y),
+                    (int(self.target.x), int(self.target.y)),
                     self.size + 4,
                     1,
                 )

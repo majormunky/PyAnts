@@ -20,7 +20,7 @@ class Point:
         self.y = y
 
     def __repr__(self):
-        return (self.x, self.y)
+        return str("{}, {}".format(self.x, self.y))
 
     def __iter__(self):
         return [self.x, self.y]

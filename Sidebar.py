@@ -44,7 +44,9 @@ class Sidebar:
             scanning_text,
             ((self.rect.width / 2) - (scanning_text.get_rect().width / 2), 80),
         )
-        ants_found = [ant for ant in self.game.ants if ant.state == "found"]
+        ants_found = [
+            ant for ant in self.game.ants if ant.state in ["found", "found_waiting"]
+        ]
         found_text = text_surface("Found: {}".format(len(ants_found)), font_size=36)
         self.image.blit(
             found_text,
