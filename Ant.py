@@ -81,6 +81,7 @@ class Ant:
             self.update_position(dt)
             d = self.get_distance_to("job")
             if d < 5:
+                self.current_job.is_active = False
                 self.change_state(
                     "found_waiting",
                     "We found our job, but, going to wait a second before going to exit",
