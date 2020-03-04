@@ -3,6 +3,7 @@ import random
 from Engine.Engine import Engine
 from Engine.Config import get_screenrect, set_screensize
 from Ant import Ant
+from Sidebar import Sidebar
 import utils
 
 
@@ -11,11 +12,13 @@ class Game:
         self.ant_count = 20
         self.screenrect = get_screenrect()
         self.sidebar_width = 200
-        self.sidebar = pygame.Rect(
-            self.screenrect.width - self.sidebar_width,
-            0,
-            self.sidebar_width,
-            self.screenrect.height,
+        self.sidebar = Sidebar(
+            pygame.Rect(
+                self.screenrect.width - self.sidebar_width,
+                0,
+                self.sidebar_width,
+                self.screenrect.height,
+            )
         )
         self.game_area = pygame.Rect(
             0, 0, self.screenrect.width - self.sidebar_width, self.screenrect.height
@@ -76,7 +79,7 @@ class Game:
             ant.update(dt)
 
     def draw(self, canvas):
-        pygame.draw.rect(canvas, (20, 0, 0), self.sidebar)
+        self.sidebar.draw(canvas)
         pygame.draw.rect(canvas, (40, 0, 0), self.game_area)
         for ant in self.ants:
             ant.draw(canvas)
