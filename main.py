@@ -9,9 +9,14 @@ import utils
 
 class Game:
     def __init__(self):
-        self.ant_count = 20
         self.screenrect = get_screenrect()
         self.sidebar_width = 200
+        self.game_area = pygame.Rect(
+            0, 0, self.screenrect.width - self.sidebar_width, self.screenrect.height
+        )
+        self.ant_count = 20
+        self.ants = []
+        self.create_ants(self.ant_count)
         self.sidebar = Sidebar(
             pygame.Rect(
                 self.screenrect.width - self.sidebar_width,
@@ -21,12 +26,7 @@ class Game:
             ),
             self,
         )
-        self.game_area = pygame.Rect(
-            0, 0, self.screenrect.width - self.sidebar_width, self.screenrect.height
-        )
 
-        self.ants = []
-        self.create_ants(self.ant_count)
         # right now a job is just a position
         # we want the ant to pick up the thing
         # and move it to a spot to drop it off

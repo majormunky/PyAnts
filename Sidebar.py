@@ -5,6 +5,7 @@ from Engine.Text import text_surface
 class Sidebar:
     def __init__(self, rect, game):
         self.background_color = (20, 0, 0)
+        self.game = game
         self.rect = rect
         self.image = None
         self.title_text = text_surface("Ants", font_size=36)
@@ -26,6 +27,28 @@ class Sidebar:
         self.image.blit(
             self.title_text,
             ((self.rect.width / 2) - (self.title_text.get_rect().width / 2), 20),
+        )
+        ants_looking = [ant for ant in self.game.ants if ant.state == "searching"]
+        looking_text = text_surface(
+            "Looking: {}".format(len(ants_looking)), font_size=36
+        )
+        self.image.blit(
+            looking_text,
+            ((self.rect.width / 2) - (looking_text.get_rect().width / 2), 50),
+        )
+        ants_scanning = [ant for ant in self.game.ants if ant.state == "scanning"]
+        scanning_text = text_surface(
+            "Scanning: {}".format(len(ants_scanning)), font_size=36
+        )
+        self.image.blit(
+            scanning_text,
+            ((self.rect.width / 2) - (scanning_text.get_rect().width / 2), 80),
+        )
+        ants_found = [ant for ant in self.game.ants if ant.state == "found"]
+        found_text = text_surface("Found: {}".format(len(ants_found)), font_size=36)
+        self.image.blit(
+            found_text,
+            ((self.rect.width / 2) - (found_text.get_rect().width / 2), 110),
         )
 
     def draw(self, canvas):
