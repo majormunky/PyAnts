@@ -27,11 +27,12 @@ class Job:
             return self.position.y
 
     def draw(self, canvas):
-        pygame.draw.rect(
-            canvas,
-            (255, 255, 255),
-            (self.position.x, self.position.y, self.size, self.size),
-        )
+        if self.is_active:
+            pygame.draw.rect(
+                canvas,
+                (255, 255, 255),
+                (self.position.x, self.position.y, self.size, self.size),
+            )
 
     def handle_event(self, event):
         pass
