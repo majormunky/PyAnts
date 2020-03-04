@@ -18,7 +18,8 @@ class Game:
                 0,
                 self.sidebar_width,
                 self.screenrect.height,
-            )
+            ),
+            self,
         )
         self.game_area = pygame.Rect(
             0, 0, self.screenrect.width - self.sidebar_width, self.screenrect.height
@@ -75,6 +76,7 @@ class Game:
                 self.jobs.append((rx, ry))
 
     def update(self, dt):
+        self.sidebar.update(dt)
         for ant in self.ants:
             ant.update(dt)
 
