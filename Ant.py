@@ -41,7 +41,7 @@ class Ant:
             d = utils.get_distance(self.position, (rx, ry))
             if d > 30:
                 print("Found it")
-                return (rx, ry)
+                return utils.Point(rx, ry)
             else:
                 print("Trying Again")
 
@@ -128,7 +128,11 @@ class Ant:
         elif self.state == "searching":
             if self.target:
                 pygame.draw.circle(
-                    canvas, (255, 255, 255), self.target, self.size + 4, 1
+                    canvas,
+                    (255, 255, 255),
+                    (self.target.x, self.target.y),
+                    self.size + 4,
+                    1,
                 )
 
     def handle_event(self, event):

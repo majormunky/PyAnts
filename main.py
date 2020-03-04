@@ -4,6 +4,7 @@ from Engine.Engine import Engine
 from Engine.Config import get_screenrect, set_screensize
 from Ant import Ant
 from Sidebar import Sidebar
+from Job import Job
 import utils
 
 
@@ -69,11 +70,14 @@ class Game:
 
     def create_jobs(self, amount):
         padding = 40
+        job_cache = []
         while len(self.jobs) < amount:
             rx = random.randint(padding, self.game_area.width - padding)
             ry = random.randint(padding, self.game_area.height - padding)
-            if (rx, ry) not in self.jobs:
-                self.jobs.append((rx, ry))
+            if (rx, ry) not in job_cache:
+                new_job = Job(utils.Point(rx, ry))
+                self.jobs.append(new_job)
+                job_cache.append((rx, ry))
 
     def update(self, dt):
         self.sidebar.update(dt)
@@ -87,10 +91,10 @@ class Game:
             ant.draw(canvas)
 
         for job in self.jobs:
-            pygame.draw.rect(canvas, (0, 200, 200), (job[0], job[1], 5, 5))
+            pygame.draw.rect(canvas, (0, 200, 200), (job.x, job.y, 5, 5))
 
         for job in self.working_jobs:
-            pygame.draw.rect(canvas, (255, 255, 255), (job[0], job[1], 5, 5))
+            pygame.draw.rect(canvas, (255, 255, 255), (job.x, job.y, 5, 5))
 
         pygame.draw.rect(canvas, (255, 255, 255), self.drop_off)
 
